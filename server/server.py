@@ -37,6 +37,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r"/", MainHandler),
             (r"/chatsocket", ChatSocketHandler),
+            (r"/update", UpdateHandler)
         ]
         settings = dict(
             cookie_secret="43oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
@@ -51,6 +52,17 @@ class Application(tornado.web.Application):
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("index.html", messages=ChatSocketHandler.cache)
+
+class UpdateHandler(tornado.web.RequestHandler):
+    def get(self):
+        chat = {
+            "id": str(uuid.uuid4()),
+            "body": 'Update call',
+            }
+        chat["html"] = self.render_string("message.html", message=chat)
+
+        ChatSocketHandler.update_cache(chat)
+        ChatSocketHandler.send_updates(chat)
 
 class ChatSocketHandler(tornado.websocket.WebSocketHandler):
     waiters = set()
