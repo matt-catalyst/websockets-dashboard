@@ -36,14 +36,14 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", MainHandler),
-            (r"/chatsocket", ChatSocketHandler),
-            (r"/update", UpdateHandler)
+            (r"/chatsocket", ClientSocketHandler),
+            (r"/update/(.*)", UpdateHandler)
         ]
         settings = dict(
             cookie_secret="43oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            xsrf_cookies=True,
+            xsrf_cookies=False,
             autoescape=None,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -51,21 +51,23 @@ class Application(tornado.web.Application):
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("index.html", messages=ChatSocketHandler.cache)
+        self.render("index.html", messages=ClientSocketHandler.cache)
+
 
 class UpdateHandler(tornado.web.RequestHandler):
-    def get(self):
+    def post(self, plugin):
         chat = {
             "id": str(uuid.uuid4()),
-            "body": 'Update call',
+            "body": '%s: %s' % (plugin, self.get_argument('data'))
             }
         chat["html"] = self.render_string("message.html", message=chat)
 
-        ChatSocketHandler.update_cache(chat)
-        ChatSocketHandler.send_updates(chat)
+        ClientSocketHandler.update_cache(chat)
+        ClientSocketHandler.send_updates(chat)
 
-class ChatSocketHandler(tornado.websocket.WebSocketHandler):
-    waiters = set()
+
+class ClientSocketHandler(tornado.websocket.WebSocketHandler):
+    clients = set()
     cache = []
     cache_size = 200
 
@@ -74,10 +76,10 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
         return True
 
     def open(self):
-        ChatSocketHandler.waiters.add(self)
+        ClientSocketHandler.clients.add(self)
 
     def on_close(self):
-        ChatSocketHandler.waiters.remove(self)
+        ClientSocketHandler.clients.remove(self)
 
     @classmethod
     def update_cache(cls, chat):
@@ -87,10 +89,10 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
 
     @classmethod
     def send_updates(cls, chat):
-        logging.info("sending message to %d waiters", len(cls.waiters))
-        for waiter in cls.waiters:
+        logging.info("sending message to %d clients", len(cls.clients))
+        for client in cls.clients:
             try:
-                waiter.write_message(chat)
+                client.write_message(chat)
             except:
                 logging.error("Error sending message", exc_info=True)
 
@@ -103,8 +105,8 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
             }
         chat["html"] = self.render_string("message.html", message=chat)
 
-        ChatSocketHandler.update_cache(chat)
-        ChatSocketHandler.send_updates(chat)
+        ClientSocketHandler.update_cache(chat)
+        ClientSocketHandler.send_updates(chat)
 
 
 def main():
