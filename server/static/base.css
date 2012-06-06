@@ -15,15 +15,16 @@
  */
 
 body {
-  background: white;
-  margin: 10px;
+    background-color: #111314;
+    padding: 0;
+    color: #707275;
+    font-family: Arial, Tahoma, Geneva, sans-serif;
+    font-size: small;
 }
 
-body,
-input {
-  font-family: sans-serif;
-  font-size: 10pt;
-  color: black;
+a {
+    text-decoration: none;
+    color: #d3d4d4;
 }
 
 table {
@@ -46,14 +47,30 @@ div.plugin {
     width: 33%;
     overflow: hidden;
     margin: 1em;
-    padding: 1em;
-    border: 1px solid #ccc;
+    background-image: url(widget_grad.png);
+    background-repeat: no-repeat;
+    background-position: 100% 0;
+    -moz-box-shadow: 2px 0 3px #0D0D0D, -2px 0 3px #0D0D0D, 0 3px 3px #0D0D0D, 0 -2px 3px #0D0D0D;
+    -webkit-box-shadow: 2px 0 3px #0D0D0D, -2px 0 3px #0D0D0D, 0 3px 3px #0D0D0D, 0 -2px 3px #0D0D0D;
+    background-color: #232526;
 }
 
 div.plugin h1 {
     margin-top: 0;
+    padding: 0.5em 1em;
+    border-bottom: 1px solid #151617;
+    border-top: 1px solid #323434;
+    color: #707275;
+    text-shadow: 0 -1px 1px #000;
+    font-weight: normal;
+    font-size: 90%;
 }
 
 div.plugin ol {
-    padding: 0;
+    padding: 0 1em;
+}
+
+div.plugin li {
+    list-style: none;
+    padding-bottom: 5px;
 }

@@ -92,13 +92,12 @@ plugins.wrms = {
 
         var link = $('<a>').html(content.brief);
         link.attr('href', 'http://wrms.catalyst.net.nz/wr.php?request_id='+content.request_id);
-        var title = $('<td>').append(link);
         var status = content.status_desc;
-        var node = $('<li>').append(title).append(' - ').append(status);
+        var node = $('<li>').append(link).append(' - ').append(status);
         node.hide();
 
         $('div#wrms ol').append(node);
-        if ($('div#wrms ol li').length > 5) {
+        if ($('div#wrms ol li').length > 10) {
             $('div#wrms ol li:first').slideUp().remove();
         }
 
