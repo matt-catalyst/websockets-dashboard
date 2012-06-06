@@ -16,35 +16,13 @@ $(document).ready(function() {
     if (!window.console) window.console = {};
     if (!window.console.log) window.console.log = function() {};
 
-    $("#messageform").live("submit", function() {
-        newMessage($(this));
-        return false;
-    });
-    $("#messageform").live("keypress", function(e) {
-        if (e.keyCode == 13) {
-            newMessage($(this));
-            return false;
-        }
-    });
-    $("#message").select();
+    for (p in plugins) {
+        plugin = plugins[p];
+        plugin.start();
+    }
+
     updater.start();
 });
-
-function newMessage(form) {
-    var message = form.formToDict();
-    updater.socket.send(JSON.stringify(message));
-    form.find("input[type=text]").val("").select();
-}
-
-jQuery.fn.formToDict = function() {
-    var fields = this.serializeArray();
-    var json = {}
-    for (var i = 0; i < fields.length; i++) {
-        json[fields[i].name] = fields[i].value;
-    }
-    if (json.next) delete json.next;
-    return json;
-};
 
 var updater = {
     socket: null,
@@ -52,21 +30,76 @@ var updater = {
     start: function() {
         var url = "ws://" + location.host + "/chatsocket";
         if ("WebSocket" in window) {
-	    updater.socket = new WebSocket(url);
+            updater.socket = new WebSocket(url);
         } else {
             updater.socket = new MozWebSocket(url);
         }
-	updater.socket.onmessage = function(event) {
-	    updater.showMessage(JSON.parse(event.data));
-	}
+        updater.socket.onmessage = function(event) {
+            updater.showMessage(JSON.parse(event.data));
+        }
     },
 
-    showMessage: function(message) {
-        var existing = $("#m" + message.id);
-        if (existing.length > 0) return;
-        var node = $(message.html);
-        node.hide();
-        $("#inbox").append(node);
-        node.slideDown();
+    showMessage: function(data) {
+        var plugin = $(data.html).data('plugin');
+        plugins[plugin].receiveData(data);
     }
 };
+
+var plugins = {}
+
+
+
+plugins.example = {
+
+    html: null,
+
+    start: function() {
+        html = ('<div class="plugin" id="example"><h1>Messages</h1><ol></ol></div>');
+        $('div#body').append(html);
+    },
+
+
+    receiveData: function(data) {
+
+        var content = $(data.html).text();
+        var node = $('<li>').html(content);
+
+        node.hide();
+
+        $('div#example ol').append(node);
+        if ($('div#example ol li').length > 5) {
+            $('div#example ol li:first').slideUp().remove();
+        }
+
+        node.slideDown();
+
+    }
+}
+
+
+plugins.wrms = {
+
+    html: null,
+
+    start: function() {
+        html = ('<div class="plugin" id="wrms"><h1>WRMS</h1><ol></ol></div>');
+        $('div#body').append(html);
+    },
+
+
+    receiveData: function(data) {
+
+        var content = $(data.html).text();
+        var node = $('<li>').html(content);
+
+        node.hide();
+
+        $('div#wrms ol').append(node);
+        if ($('div#wrms ol li').length > 5) {
+            $('div#wrms ol li:first').slideUp().remove();
+        }
+
+        node.slideDown();
+
+    }
+}

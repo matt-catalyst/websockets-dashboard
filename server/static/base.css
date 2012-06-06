@@ -36,21 +36,9 @@ td {
   padding: 0;
 }
 
-#body {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-}
-
-#input {
-  margin-top: 0.5em;
-}
-
-#inbox .message {
-  padding-top: 0.25em;
-}
-
-#nav {
-  float: right;
-  z-index: 99;
+div.plugin {
+    float: left;
+    height: 25%;
+    width: 33%;
+    overflow: hidden;
 }

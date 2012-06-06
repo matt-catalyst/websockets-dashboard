@@ -56,14 +56,15 @@ class MainHandler(tornado.web.RequestHandler):
 
 class UpdateHandler(tornado.web.RequestHandler):
     def post(self, plugin):
-        chat = {
+        data = {
             "id": str(uuid.uuid4()),
-            "body": '%s: %s' % (plugin, self.get_argument('data'))
+            "plugin": plugin,
+            "body": self.get_argument('data')
             }
-        chat["html"] = self.render_string("message.html", message=chat)
+        data["html"] = self.render_string("data.html", data=data)
 
-        ClientSocketHandler.update_cache(chat)
-        ClientSocketHandler.send_updates(chat)
+        ClientSocketHandler.update_cache(data)
+        ClientSocketHandler.send_updates(data)
 
 
 class ClientSocketHandler(tornado.websocket.WebSocketHandler):
@@ -95,18 +96,6 @@ class ClientSocketHandler(tornado.websocket.WebSocketHandler):
                 client.write_message(chat)
             except:
                 logging.error("Error sending message", exc_info=True)
-
-    def on_message(self, message):
-        logging.info("got message %r", message)
-        parsed = tornado.escape.json_decode(message)
-        chat = {
-            "id": str(uuid.uuid4()),
-            "body": parsed["body"],
-            }
-        chat["html"] = self.render_string("message.html", message=chat)
-
-        ClientSocketHandler.update_cache(chat)
-        ClientSocketHandler.send_updates(chat)
 
 
 def main():
