@@ -41,9 +41,9 @@ var updater = {
 
     showMessage: function(data) {
         var plugin = $(data.html).data('plugin');
-        var content = jQuery.parseJSON($(data.html).text());
+        var content = $(data.html).text();
 
-        plugins[plugin].receiveData(content);
+        plugins[plugin].receiveData(jQuery.parseJSON(content));
     }
 };
 
@@ -90,11 +90,11 @@ plugins.wrms = {
 
     receiveData: function(content) {
 
-        var link = $('<a>').html(content.title);
-        link.attr('href', 'http://wrms.catalyst.net.nz/wr.php?request_id='+content.id);
+        var link = $('<a>').html(content.brief);
+        link.attr('href', 'http://wrms.catalyst.net.nz/wr.php?request_id='+content.request_id);
         var title = $('<td>').append(link);
-        var system = content.system;
-        var node = $('<li>').append(title).append(' - ').append(system);
+        var status = content.status_desc;
+        var node = $('<li>').append(title).append(' - ').append(status);
         node.hide();
 
         $('div#wrms ol').append(node);
