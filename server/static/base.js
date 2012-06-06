@@ -41,7 +41,9 @@ var updater = {
 
     showMessage: function(data) {
         var plugin = $(data.html).data('plugin');
-        plugins[plugin].receiveData(data);
+        var content = jQuery.parseJSON($(data.html).text());
+
+        plugins[plugin].receiveData(content);
     }
 };
 
@@ -72,7 +74,6 @@ plugins.example = {
         }
 
         node.slideDown();
-
     }
 }
 
@@ -87,11 +88,13 @@ plugins.wrms = {
     },
 
 
-    receiveData: function(data) {
+    receiveData: function(content) {
 
-        var content = $(data.html).text();
-        var node = $('<li>').html(content);
-
+        var link = $('<a>').html(content.title);
+        link.attr('href', 'http://wrms.catalyst.net.nz/wr.php?request_id='+content.id);
+        var title = $('<td>').append(link);
+        var system = content.system;
+        var node = $('<li>').append(title).append(' - ').append(system);
         node.hide();
 
         $('div#wrms ol').append(node);
@@ -100,6 +103,5 @@ plugins.wrms = {
         }
 
         node.slideDown();
-
     }
 }

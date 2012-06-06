@@ -36,9 +36,24 @@ td {
   padding: 0;
 }
 
+div#body {
+    padding: 1em;
+}
+
 div.plugin {
     float: left;
-    height: 25%;
+    height: 300px;
     width: 33%;
     overflow: hidden;
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid #ccc;
+}
+
+div.plugin h1 {
+    margin-top: 0;
+}
+
+div.plugin ol {
+    padding: 0;
 }
