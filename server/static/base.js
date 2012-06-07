@@ -24,25 +24,37 @@ $(document).ready(function() {
     updater.start();
 });
 
+
+// Websocket handler
 var updater = {
     socket: null,
 
     start: function() {
+        // Create websocket
         var url = "ws://" + location.host + "/chatsocket";
         if ("WebSocket" in window) {
             updater.socket = new WebSocket(url);
         } else {
             updater.socket = new MozWebSocket(url);
         }
+
+        // On websocket message receive
         updater.socket.onmessage = function(event) {
-            updater.showMessage(JSON.parse(event.data));
+            // Get data
+            var data = JSON.parse(event.data);
+
+            // Loop through messages
+            updater.routeMessage(data);
         }
     },
 
-    showMessage: function(data) {
+    // Route received message
+    routeMessage: function(data) {
+        // Get data
         var plugin = $(data.html).data('plugin');
         var content = $(data.html).text();
 
+        // Push to plugin
         plugins[plugin].receiveData(jQuery.parseJSON(content));
     }
 };
