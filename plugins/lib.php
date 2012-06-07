@@ -3,7 +3,7 @@
 
 function dashboard_push_data($plugin, $data) {
     $json = json_encode($data);
-    $d = '_xsrf=0&data='.urlencode($json);
+    $d = 'data='.urlencode($json);
 
     $ch = curl_init("http://127.0.0.1:8888/update/{$plugin}");
     curl_setopt($ch, CURLOPT_POST, true);
