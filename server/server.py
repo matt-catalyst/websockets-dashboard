@@ -34,11 +34,16 @@ define("port", default=8888, help="run on the given port", type=int)
 
 class Application(tornado.web.Application):
     def __init__(self):
+
+        plugins_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "plugins")
+
         handlers = [
             (r"/", MainHandler),
             (r"/chatsocket", ClientSocketHandler),
+            (r"/plugin/(.*).js", PluginClientHandler, {"path": plugins_path}),
             (r"/update/(.*)", UpdateHandler)
         ]
+
         settings = dict(
             cookie_secret="43oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
@@ -51,7 +56,12 @@ class Application(tornado.web.Application):
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("index.html", messages=ClientSocketHandler.cache)
+        self.render("index.html", messages=ClientSocketHandler.cache, plugin_clients=plugin_clients)
+
+
+class PluginClientHandler(tornado.web.StaticFileHandler):
+    def parse_url_path(self, url_path):
+        return '%s/client.js' % url_path
 
 
 class UpdateHandler(tornado.web.RequestHandler):
@@ -96,6 +106,26 @@ class ClientSocketHandler(tornado.websocket.WebSocketHandler):
                 client.write_message(chat)
             except:
                 logging.error("Error sending message", exc_info=True)
+
+
+def plugin_clients():
+    clients = []
+
+    plugins_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "plugins")
+    plugins = os.listdir(plugins_path)
+    for plugin in plugins:
+        pluginpath = os.path.join(plugins_path, plugin)
+        if not os.path.isdir(pluginpath):
+            continue
+
+        if os.path.exists(os.path.join(pluginpath, "client.js")):
+            clients.append(plugin)
+
+    output = ''
+    for client in clients:
+        output += '<script src="/plugin/%s.js" type="text/javascript"></script>\n' % client
+
+    return output
 
 
 def main():

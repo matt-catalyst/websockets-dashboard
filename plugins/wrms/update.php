@@ -24,14 +24,19 @@ while(1) {
     // Reverse data
     $data = array_reverse($data);
 
+    // Data to send
+    $send = array();
+
     foreach ($data as $row) {
         if ($row->request_id <= $lastwr) {
             continue;
         }
 
-        dashboard_push_data('wrms', $row);
-        $lastwr = $row->request_id;
+        $send[] = $row;
     }
+
+    dashboard_push_data('wrms', $send);
+    $lastwr = $row->request_id;
 
     sleep(60);
 }
