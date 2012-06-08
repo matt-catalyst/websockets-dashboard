@@ -1,3 +1,18 @@
+# Prerequisites
+
+* Tornado (http://www.tornadoweb.org) is installed - can by done via easy_install
+
+# To run
+
+## Server
+
+Simply run ```python server/server.py``` from the repository root directory
+
+## Plugins
+
+This is done on a per-plugin basis as they all work differently.
+
+
 # Plugin interfaces:
 
 Plugins communicate with dashboard clients through the Tornado websocket server via a REST interface. They can be written in any language, and run on-demand, by cron or be a persistent daemon.
