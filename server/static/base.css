@@ -27,6 +27,12 @@ a {
     color: #d3d4d4;
 }
 
+em {
+    font-style: normal;
+    font-weight: normal;
+    color: #aaa;
+}
+
 table {
   border-collapse: collapse;
   border: 0;
@@ -43,8 +49,8 @@ div#body {
 
 div.plugin {
     float: left;
-    height: 300px;
-    width: 33%;
+    height: 350px;
+    width: 45%;
     overflow: hidden;
     margin: 1em;
     background-image: url(widget_grad.png);
@@ -72,5 +78,28 @@ div.plugin ol {
 
 div.plugin li {
     list-style: none;
+    padding-bottom: 10px;
+}
+
+div#messages li {
     padding-bottom: 5px;
+}
+
+div#wrms li {
+    border-bottom: 2px solid #333;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+div#wrms li a {
+    width: 100%;
+    overflow: hidden;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+div.graph {
+    float: left;
+    background-color: #fff;
 }

@@ -18,18 +18,18 @@ plugins.wrms = {
         for (c in data) {
             var content = data[c];
 
-            var link = $('<a>').html(content.brief);
+            var link = $('<a>').html('<em>['+content.system_code+']</em> '+content.brief);
             link.attr('href', 'http://wrms.catalyst.net.nz/wr.php?request_id='+content.request_id);
             var status = content.status_desc;
             var node = $('<li>').append(link).append(' - ').append(status);
             node.hide();
 
-            $('div#wrms ol').append(node);
-            if ($('div#wrms ol li').length > 10) {
-                $('div#wrms ol li:first').slideUp().remove();
+            $('div#wrms ol').prepend(node);
+            if ($('div#wrms ol li').length > 20) {
+                $('div#wrms ol li:last').slideUp().remove();
             }
 
-            node.slideDown();
+            node.fadeIn(1000);
         }
     }
 }
