@@ -7,14 +7,15 @@ Plugin -> Clients
 
 Communication to Tornado from the plugin is via a POST request.
 
-  URL: http://tornadoserver:port/update/{$plugname}
-  POST Request
-  POST data should be in the format:
-    data={$jsonformatteddata}
+    URL: http://tornadoserver:port/update/{$plugname}
+    POST Request
+    POST data should be in the format:
+      data={$jsonformatteddata}
 
 If you wish to send multiple data parts at once, instead of sending multiple POST requests you can send them in a signle format the Tornado server understands for caching purposes.
 
 Use the POST data format:
+
     data={$jsonformatteddata1}&data={$jsonformatteddata2}&data={$jsonformatteddata3}
 
 
