@@ -18,6 +18,7 @@ $(document).ready(function() {
 
     for (p in plugins) {
         plugin = plugins[p];
+        console.log('Start plugin '+p);
         plugin.start();
     }
 
@@ -61,31 +62,3 @@ var updater = {
 };
 
 var plugins = {}
-
-
-
-plugins.example = {
-
-    html: null,
-
-    start: function() {
-        html = ('<div class="plugin" id="example"><h1>Messages</h1><ol></ol></div>');
-        $('div#body').append(html);
-    },
-
-
-    receiveData: function(data) {
-
-        var content = $(data.html).text();
-        var node = $('<li>').html(content);
-
-        node.hide();
-
-        $('div#example ol').append(node);
-        if ($('div#example ol li').length > 5) {
-            $('div#example ol li:first').slideUp().remove();
-        }
-
-        node.slideDown();
-    }
-}
