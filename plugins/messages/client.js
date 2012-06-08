@@ -3,7 +3,7 @@ plugins.messages = {
     html: null,
 
     start: function() {
-        html = ('<div class="plugin" id="messages"><h1>Messages (<a href="http://192.168.2.245/messages.php">send your own!</a>)</h1><ol></ol></div>');
+        html = ('<div class="plugin" id="messages"><h1>Messages (<a target="_blank" href="http://192.168.2.245/messages.php">send your own!</a>)</h1><ol></ol></div>');
         $('div#body').append(html);
     },
 
