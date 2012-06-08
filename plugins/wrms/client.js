@@ -13,7 +13,6 @@ plugins.wrms = {
         // Check for a single message (is not array?)
         if (!$.isArray(data)) {
             data = [data];
-        } else {
         }
 
         for (c in data) {

@@ -22,6 +22,7 @@ import logging
 import tornado.escape
 import tornado.ioloop
 import tornado.options
+import tornado.template
 import tornado.web
 import tornado.websocket
 import os.path
@@ -66,21 +67,19 @@ class PluginClientHandler(tornado.web.StaticFileHandler):
 
 class UpdateHandler(tornado.web.RequestHandler):
     def post(self, plugin):
-        data = {
-            "id": str(uuid.uuid4()),
-            "plugin": plugin,
-            "body": self.get_argument('data')
-            }
-        data["html"] = self.render_string("data.html", data=data)
+        data = self.get_arguments('data')
 
-        ClientSocketHandler.update_cache(data)
-        ClientSocketHandler.send_updates(data)
+        items = []
+        for item in data:
+           ClientSocketHandler.update_cache(plugin, item)
+
+        ClientSocketHandler.send_updates(plugin, data)
 
 
 class ClientSocketHandler(tornado.websocket.WebSocketHandler):
     clients = set()
-    cache = []
-    cache_size = 200
+    cache = {}
+    cache_size = 20
 
     def allow_draft76(self):
         # for iOS 5.0 Safari
@@ -88,24 +87,62 @@ class ClientSocketHandler(tornado.websocket.WebSocketHandler):
 
     def open(self):
         ClientSocketHandler.clients.add(self)
+        # Send through any cached data
+        ClientSocketHandler.push_cache(self)
 
     def on_close(self):
         ClientSocketHandler.clients.remove(self)
 
     @classmethod
-    def update_cache(cls, chat):
-        cls.cache.append(chat)
-        if len(cls.cache) > cls.cache_size:
-            cls.cache = cls.cache[-cls.cache_size:]
+    def update_cache(cls, plugin, data):
+        if plugin not in cls.cache:
+            cls.cache[plugin] = []
+
+        cls.cache[plugin].append(data)
+        if len(cls.cache[plugin]) > cls.cache_size:
+            cls.cache[plugin] = cls.cache[plugin][-cls.cache_size:]
 
     @classmethod
-    def send_updates(cls, chat):
-        logging.info("sending message to %d clients", len(cls.clients))
-        for client in cls.clients:
+    def push_cache(cls, client):
+        if not len(cls.cache):
+            return
+
+        for plugin in cls.cache:
+            if not len(cls.cache[plugin]):
+                continue
+
+            message = ClientSocketHandler.generate_message(plugin, cls.cache[plugin])
             try:
-                client.write_message(chat)
+                client.write_message(message)
             except:
                 logging.error("Error sending message", exc_info=True)
+
+    @classmethod
+    def send_updates(cls, plugin, data):
+        logging.info("sending message to %d clients", len(cls.clients))
+        for client in cls.clients:
+            message = ClientSocketHandler.generate_message(plugin, data)
+            try:
+                client.write_message(message)
+            except:
+                logging.error("Error sending message", exc_info=True)
+
+
+    @classmethod
+    def generate_message(cls, plugin, data):
+        # Check if we are getting multiple data
+        if isinstance(data, list):
+            data = '['+','.join(data)+']'
+
+        data = {
+            "plugin": plugin,
+            "body": data
+        }
+
+        t = tornado.template.Template('<div class="incoming-data" data-plugin="{{ plugin }}">{{ data }}</div>')
+        data['html'] = t.generate(plugin=plugin, data=data["body"])
+        return data
+
 
 
 def plugin_clients():

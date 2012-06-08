@@ -55,6 +55,7 @@ var updater = {
         var content = $(data.html).text();
 
         // Push to plugin
+        console.log('data received for '+plugin+' plugin');
         plugins[plugin].receiveData(jQuery.parseJSON(content));
     }
 };

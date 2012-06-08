@@ -35,8 +35,11 @@ while(1) {
         $send[] = $row;
     }
 
-    dashboard_push_data('wrms', $send);
-    $lastwr = $row->request_id;
+    if (!empty($send)) {
+        print count($send)." updates sent\n";
+        dashboard_push_data('wrms', $send, $multiple=true);
+        $lastwr = $row->request_id;
+    }
 
     sleep(60);
 }
