@@ -1,9 +1,9 @@
-Plugin interfaces:
+# Plugin interfaces:
 
 Plugins communicate with dashboard clients through the Tornado websocket server via a REST interface. They can be written in any language, and run on-demand, by cron or be a persistent daemon.
 
 
-Plugin -> Clients
+## Plugin -> Clients
 
 Communication to Tornado from the plugin is via a POST request.
 
@@ -20,7 +20,7 @@ Use the POST data format:
 
 
 
-Client Plugin Javascript
+## Client Plugin Javascript
 
 Plugin data should be handled and formatted via javascript, this is the basic skeleton:
 
