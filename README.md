@@ -1,12 +1,13 @@
 # Prerequisites
 
-* Tornado (http://www.tornadoweb.org) is installed - can by done via easy_install
+* Tornado (http://www.tornadoweb.org) is installed - this can by done via easy_install
 
 # To run
 
 ## Server
 
-Simply run ```python server/server.py``` from the repository root directory
+Simply run ```python server/server.py``` from the repository root directory.
+Then visit http://127.0.0.1:8888/ in your browser.
 
 ## Plugins
 
@@ -27,12 +28,13 @@ Communication to Tornado from the plugin is via a POST request.
     POST data should be in the format:
       data={$jsonformatteddata}
 
-If you wish to send multiple data parts at once, instead of sending multiple POST requests you can send them in a signle format the Tornado server understands for caching purposes.
+If you wish to send multiple data parts at once, instead of sending multiple POST requests you can send them in a single format the Tornado server understands for caching purposes.
 
 Use the POST data format:
 
     data={$jsonformatteddata1}&data={$jsonformatteddata2}&data={$jsonformatteddata3}
 
+The server will cache the last 20 messages from a plugin, and when a new client connects the server will pushed all cached messages to it.
 
 
 ## Client Plugin Javascript
