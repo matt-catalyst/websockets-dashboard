@@ -83,4 +83,4 @@ Plugin data should be handled and formatted via javascript, this is the basic sk
     }
 
 
-jQuery is included on the page, and when a client first connects all plugin client.js files are automatically included from the plugins/ subdirectories.
+jQuery and d3.js are included on the page, and when a client first connects all plugin ```client.js``` files are automatically included from the subdirectories symbolically linked in ```enabled-plugins```. Plugins can include additional files via $.getScript() using the URL format ```http://tornadoserver:port/plugin/pluginname/staticfilename```.

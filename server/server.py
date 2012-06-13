@@ -31,26 +31,26 @@ import uuid
 from tornado.options import define, options
 
 define("port", default=8888, help="run on the given port", type=int)
-
+root_dir = os.path.dirname(os.path.dirname(__file__))
 
 class Application(tornado.web.Application):
     def __init__(self):
 
-        plugins_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "plugins")
+        plugins_path = os.path.join(root_dir, "enabled-plugins")
 
         handlers = [
             (r"/", MainHandler),
             (r"/chatsocket", ClientSocketHandler),
-            (r"/plugin/(.*).js", PluginClientHandler, {"path": plugins_path}),
+            (r"/plugin/(.*)", PluginClientHandler, {"path": plugins_path}),
             (r"/update/(.*)", UpdateHandler)
         ]
 
         settings = dict(
-            cookie_secret="43oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
-            template_path=os.path.join(os.path.dirname(__file__), "templates"),
-            static_path=os.path.join(os.path.dirname(__file__), "static"),
-            xsrf_cookies=False,
-            autoescape=None,
+            cookie_secret = "43oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
+            template_path = os.path.join(root_dir, "server", "templates"),
+            static_path   = os.path.join(root_dir, "server", "static"),
+            xsrf_cookies  = False,
+            autoescape    = None,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
 
@@ -62,7 +62,8 @@ class MainHandler(tornado.web.RequestHandler):
 
 class PluginClientHandler(tornado.web.StaticFileHandler):
     def parse_url_path(self, url_path):
-        return '%s/client.js' % url_path
+        path = url_path.split('/')
+        return '%s/static/%s' % (path[0], path[1])
 
 
 class UpdateHandler(tornado.web.RequestHandler):
@@ -144,23 +145,37 @@ class ClientSocketHandler(tornado.websocket.WebSocketHandler):
         return data
 
 
+def get_plugins():
+    plugins = []
 
-def plugin_clients():
-    clients = []
-
-    plugins_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "plugins")
-    plugins = os.listdir(plugins_path)
-    for plugin in plugins:
+    plugins_path = os.path.join(root_dir, "enabled-plugins")
+    plugin_dirs = os.listdir(plugins_path)
+    for plugin in plugin_dirs:
         pluginpath = os.path.join(plugins_path, plugin)
         if not os.path.isdir(pluginpath):
             continue
+        plugins.append(plugin)
 
-        if os.path.exists(os.path.join(pluginpath, "client.js")):
-            clients.append(plugin)
+    return plugins
+
+
+def get_plugin_staticdir(plugin):
+    path = os.path.join(root_dir, "enabled-plugins", plugin, "static")
+    if os.path.exists(path) and os.path.isdir(path):
+        return path
+    else:
+        return None
+
+
+def plugin_clients():
+    plugins = get_plugins()
 
     output = ''
-    for client in clients:
-        output += '<script src="/plugin/%s.js" type="text/javascript"></script>\n' % client
+    for plugin in plugins:
+        path = get_plugin_staticdir(plugin)
+        print path
+        if path and os.path.exists(os.path.join(path, "client.js")):
+            output += '<script src="/plugin/%s/client.js" type="text/javascript"></script>\n' % plugin
 
     return output
 
