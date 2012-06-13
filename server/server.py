@@ -27,6 +27,7 @@ import tornado.web
 import tornado.websocket
 import os.path
 import uuid
+import glob
 
 from tornado.options import define, options
 
@@ -173,9 +174,14 @@ def plugin_clients():
     output = ''
     for plugin in plugins:
         path = get_plugin_staticdir(plugin)
-        print path
-        if path and os.path.exists(os.path.join(path, "client.js")):
-            output += '<script src="/plugin/%s/client.js" type="text/javascript"></script>\n' % plugin
+        if path:
+            # Include any css files
+            for css in glob.glob(os.path.join(path, "*.css")):
+                output += '<link rel="stylesheet" href="/plugin/%s/%s" type="text/css"/>\n' % (plugin, os.path.basename(css))
+
+            # Include main plugin js file (other js can be included dynamically from this js file)
+            if os.path.exists(os.path.join(path, "client.js")):
+                output += '<script src="/plugin/%s/client.js" type="text/javascript"></script>\n' % plugin
 
     return output
 
