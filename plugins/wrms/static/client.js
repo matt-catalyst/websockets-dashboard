@@ -20,7 +20,7 @@ plugins.wrms = {
 
             var link = $('<a>').html('<em>['+content.system_code+']</em> '+content.brief);
             link.attr('href', content.request_url);
-            var status = content.status_desc;
+            var status = content.status_desc+' [WR#'+content.request_id+']';
             var node = $('<li>').append(link).append(' - ').append(status);
             node.hide();
 
