@@ -3,7 +3,7 @@ plugins.availability = {
     html: null,
 
     start: function() {
-        html = ('<div class="plugin" id="availability"><h1>Availability</h1><ol></ol></div>');
+        html = ('<div class="plugin" id="availability"><h1>Availability (A=allocated, P=inprogress)</h1><ol></ol></div>');
         $('div#body').append(html);
     },
 
