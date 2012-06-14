@@ -1,0 +1,33 @@
+div#availability h2 {
+    font-size: 15px;
+    font-weight: normal;
+    color: #ccc;
+    margin: 0 0 2px;
+}
+
+div#availability > ol > li {
+    float: left;
+    width: 102px;
+    margin: 0 2px 5px;
+    padding: 3px;
+}
+
+div#availability > ol > li img {
+    float: left;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+}
+
+div#availability > ol > li > ul {
+    margin-top: 10px;
+}
+
+div#availability > ol > li li {
+    font-size: 125%;
+    color: #999;
+}
+
+div#availability > ol > li li strong {
+    display: inline-block;
+    margin-right: 5px;
+}
