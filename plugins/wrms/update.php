@@ -10,7 +10,7 @@ while(1) {
 
     print "API call\n";
 
-    $url = '/api2/report?report_type=request&page_size=20&display_fields=request_id,system_code,status_desc,brief';
+    $url = '/api2/report?report_type=request&page_size=20&display_fields=request_id,system_code,status_desc,brief&interested_users='.$config->interested_user;
 
     $ch = curl_init($config->url.$url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
