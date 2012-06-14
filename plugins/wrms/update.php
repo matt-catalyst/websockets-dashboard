@@ -32,6 +32,7 @@ while(1) {
             continue;
         }
 
+        $row->request_url = "{$config->url}/wr.php?request_id={$row->request_id}";
         $send[] = $row;
     }
 

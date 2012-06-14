@@ -19,7 +19,7 @@ plugins.wrms = {
             var content = data[c];
 
             var link = $('<a>').html('<em>['+content.system_code+']</em> '+content.brief);
-            link.attr('href', 'http://wrms.catalyst.net.nz/wr.php?request_id='+content.request_id);
+            link.attr('href', content.request_url);
             var status = content.status_desc;
             var node = $('<li>').append(link).append(' - ').append(status);
             node.hide();
