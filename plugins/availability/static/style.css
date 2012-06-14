@@ -1,5 +1,5 @@
 div#availability h2 {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: normal;
     color: #ccc;
     margin: 0 0 2px;
@@ -8,7 +8,7 @@ div#availability h2 {
 div#availability > ol > li {
     float: left;
     width: 102px;
-    margin: 0 2px 5px;
+    margin: 0 2px 15px;
     padding: 3px;
 }
 
@@ -23,8 +23,9 @@ div#availability > ol > li > ul {
 }
 
 div#availability > ol > li li {
-    font-size: 125%;
+    font-size: 12px;
     color: #999;
+    padding-bottom: 2px;
 }
 
 div#availability > ol > li li strong {
