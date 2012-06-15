@@ -31,8 +31,15 @@ import glob
 
 from tornado.options import define, options
 
-define("port", default=8888, help="run on the given port", type=int)
 root_dir = os.path.dirname(os.path.dirname(__file__))
+
+# Load config
+import ConfigParser
+cp = ConfigParser.ConfigParser()
+cp.read(os.path.join(root_dir, 'config.ini'))
+default_port = cp.get('general', 'port')
+
+define("port", default=default_port, help="run on the given port", type=int)
 
 class Application(tornado.web.Application):
     def __init__(self):
