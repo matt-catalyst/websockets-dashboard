@@ -6,8 +6,9 @@
 
 ## Server
 
-Simply run ```python server/server.py``` from the repository root directory.
-Then visit http://127.0.0.1:8888/ in your browser.
+Copy ```config-dist.ini``` to ```config.ini``` and make any necessary changes.
+Simply run ```python server/server.py``` from the repository root directory to start the server.
+Then visit http://127.0.0.1:8888/ in your browser to view.
 
 ## Plugins
 

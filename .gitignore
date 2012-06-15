@@ -1,3 +1,4 @@
 *.swp
 config.php
+config.ini
 auth.sh
