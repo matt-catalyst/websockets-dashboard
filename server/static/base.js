@@ -46,7 +46,12 @@ var updater = {
 
             // Loop through messages
             updater.routeMessage(data);
-        }
+        };
+
+        // On websocket close
+        updater.socket.onclose = function() {
+            $('body').prepend($('<div class="error">Connection lost, please refresh browser</div>'));
+        };
     },
 
     // Route received message
