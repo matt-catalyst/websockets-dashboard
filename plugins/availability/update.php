@@ -90,5 +90,5 @@ function timesheets_get_total_hours($user, $daterange) {
     }
     $totalhours = $response->response->results[0]->hours_sum;
 
-    return !empty($totalhours) ? round($totalhours, 2) : 0;
+    return !empty($totalhours) ? round($totalhours, 1) : 0;
 }
