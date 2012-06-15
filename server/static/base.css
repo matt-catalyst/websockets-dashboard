@@ -103,3 +103,8 @@ div.graph {
     float: left;
     background-color: #fff;
 }
+
+p.footer {
+    clear: both;
+    text-align: center;
+}
