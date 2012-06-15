@@ -15,11 +15,11 @@ div#availability > ol > li {
 div#availability > ol > li img {
     float: left;
     margin-right: 5px;
+    margin-top: 2px;
     border: 1px solid #ccc;
 }
 
 div#availability > ol > li > ul {
-    margin-top: 10px;
 }
 
 div#availability > ol > li li {
@@ -32,3 +32,9 @@ div#availability > ol > li li strong {
     display: inline-block;
     margin-right: 5px;
 }
+
+div#availability .shamedthisweek,
+div#availability .shamedlastweek {
+    color: #F90;
+}
+
