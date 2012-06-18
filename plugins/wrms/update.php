@@ -32,6 +32,12 @@ while(1) {
             continue;
         }
 
+        if (!empty($config->ignore_systems)) {
+            if (in_array($row->system_code, $config->ignore_systems)) {
+                continue;
+            }
+        }
+
         $row->request_url = "{$config->url}/wr.php?request_id={$row->request_id}";
         $send[] = $row;
     }
