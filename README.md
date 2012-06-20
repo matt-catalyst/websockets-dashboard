@@ -45,6 +45,12 @@ Plugin data should be handled and formatted via javascript, this is the basic sk
     plugins.pluginname = {
 
         /**
+        * This prevents the plugin frontend from receiving data when the dashboard
+        * is hidden (e.g. a different tab is open). This property is optional.
+        */
+        noBackgroundData: true,
+
+        /**
          * This function runs when the dashboard is first loaded for a client
          */
         start: function() {
