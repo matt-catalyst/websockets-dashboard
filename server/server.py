@@ -38,6 +38,7 @@ import ConfigParser
 cp = ConfigParser.ConfigParser()
 cp.read(os.path.join(root_dir, 'config.ini'))
 default_port = cp.get('general', 'port')
+host = cp.get('general', 'host')
 
 define("port", default=default_port, help="run on the given port", type=int)
 
@@ -65,7 +66,8 @@ class Application(tornado.web.Application):
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("index.html", messages=ClientSocketHandler.cache, plugin_clients=plugin_clients)
+        url = 'http://%s:%s' % (host, options.port)
+        self.render("index.html", messages=ClientSocketHandler.cache, plugin_clients=plugin_clients, url=url)
 
 
 class PluginClientHandler(tornado.web.StaticFileHandler):
