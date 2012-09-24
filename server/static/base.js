@@ -12,9 +12,21 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
+var plugins = {};
+
 $(document).ready(function() {
     if (!window.console) window.console = {};
     if (!window.console.log) window.console.log = function() {};
+
+    // Set the name of the hidden property
+    updater.config.hidden = false;
+    var h = ['hidden', 'mozHidden', 'msHidden', 'webkitHidden'];
+    for (var i = 0; i < h.length; i++) {
+        if (typeof document[h[i]] !== "undefined") {
+            updater.config.hidden = h[i];
+            break;
+        }
+    }
 
     for (p in plugins) {
         plugin = plugins[p];
@@ -28,6 +40,7 @@ $(document).ready(function() {
 
 // Websocket handler
 var updater = {
+    config: {},
     socket: null,
 
     start: function() {
@@ -60,12 +73,22 @@ var updater = {
         var plugin = $(data.html).data('plugin');
         var content = $(data.html).text();
 
-        // Push to plugin
-        console.log('data received for '+plugin+' plugin');
-        if (plugins[plugin]) {
+        if (!plugins[plugin]) {
+            return;
+        }
+
+        // Check if dashboard is not hidden, or if it is that it supports background data
+        if (!document[updater.config.hidden] || updater.pluginSupportsBackgroundData(plugin)) {
+            // Push to plugin
+            console.log('Data received for '+plugin+' plugin');
             plugins[plugin].receiveData(jQuery.parseJSON(content));
         }
+    },
+
+    // Check plugin supports receiving background data
+    pluginSupportsBackgroundData: function(plugin) {
+        return typeof plugins[plugin].noBackgroundData === "undefined";
     }
 };
 
-var plugins = {}
+var videoElement = document.getElementById("videoElement");

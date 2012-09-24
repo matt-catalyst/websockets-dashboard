@@ -1,5 +1,11 @@
 plugins.rrd3 = {
 
+    /**
+     * This prevents the plugin frontend from receiving data when the dashboard
+     * is hidden (e.g. a different tab is open). This property is optional.
+     */
+    noBackgroundData: true,
+
     html: null,
     margin: null,
     width: null,
