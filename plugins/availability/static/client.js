@@ -22,15 +22,14 @@ plugins.availability = {
             var shamedthisweek = content.shamedthisweek ? ' class=shamedthisweek' : '';
             var shamedlastweek = content.shamedlastweek ? ' class=shamedlastweek' : '';
 
-            var title = $('<h2>').text(content.name);
-            var image = $('<img>').attr('src', content.image).attr('height', 60).attr('width', 45);
+            var image = $('<img>').attr('src', content.image).attr('height', 60).attr('width', 45).attr('title', content.name);
             var li1 = $('<li><strong>A:</strong></li>').append(content.allocated);
             var li2 = $('<li><strong>P:</strong></li>').append(content.inprogress);
             var li3 = $('<li><strong>T:</strong></li>').append($('<span'+shamedthisweek+'>').text(content.hoursthisweek));
             var li4 = $('<li><strong>L:</strong></li>').append($('<span'+shamedlastweek+'>').text(content.hourslastweek));
             var ul = $('<ul>').append(li1).append(li2).append(li3).append(li4);
             var node = $('<li>').attr('id', content.id);
-            node.append(title).append(image).append(ul);
+            node.append(image).append(ul);
 
             var oldnode = $('li#'+content.id, ol);
             if (oldnode.length) {

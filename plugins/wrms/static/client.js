@@ -3,7 +3,7 @@ plugins.wrms = {
     html: null,
 
     start: function() {
-        html = ('<div class="plugin" id="wrms"><h1>WRMS</h1><ol></ol></div>');
+        html = ('<div class="plugin" id="wrms"><h1>WRMS</h1><div class="fader"></div><ol></ol></div>');
         $('div#body').append(html);
     },
 
