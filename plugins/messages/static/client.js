@@ -18,9 +18,9 @@ plugins.messages = {
         var messagebox = $('div#messages ol');
 
         for (c in data) {
-            var content = data[c];
+            var content = $(data[c]);
 
-            var node = $('<li>').text(content);
+            var node = $('<li>').append(content);
             node.hide();
 
             messagebox.append(node);
