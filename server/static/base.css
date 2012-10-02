@@ -56,7 +56,6 @@ div#body {
 div.plugin {
     float: left;
     position: relative;
-    z-index: -100;
     height: 48%;
     width: 48%;
     overflow: hidden;
