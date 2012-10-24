@@ -56,8 +56,8 @@ div#body {
 div.plugin {
     float: left;
     position: relative;
-    height: 48%;
-    width: 48%;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
     margin: 1% 1% 0 1%;
     background-image: url(widget_grad.png);
@@ -77,6 +77,7 @@ div.plugin h1 {
     text-shadow: 0 -1px 1px #000;
     font-weight: normal;
     font-size: 100%;
+    font-size: 32px;
 }
 
 div.plugin div.fader {

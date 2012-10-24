@@ -35,8 +35,41 @@ $(document).ready(function() {
     }
 
     updater.start();
+
+    transitioner.start();
+
 });
 
+// Plugin transitioner
+var transitioner = {
+    config: {
+        tdelay: 10000,  // delay between transitions
+        edelay: 1000  // effect delay
+    },
+
+    start: function() {
+        // hide all plugins
+        $('div.plugin').hide();
+        var obj = this;
+        var firstplugin = $('div.plugin:first');
+        // start transitioning immediately
+        obj.plugin_transition(firstplugin);
+        // continue on interval
+        tinterval = $('div.plugin').length * (obj.config.tdelay + obj.config.edelay);
+        setInterval(function() {obj.plugin_transition(firstplugin);}, tinterval);
+    },
+
+    plugin_transition: function(plugin) {
+        $('div.plugin').hide();
+        var obj = this;
+        var nextplugin = plugin.next();
+        if (nextplugin.length) {
+            plugin.fadeIn(obj.config.edelay).delay(obj.config.tdelay).fadeOut(obj.config.edelay, function() {obj.plugin_transition(nextplugin)});
+        } else {
+            plugin.fadeIn(obj.config.edelay);
+        }
+    }
+}
 
 // Websocket handler
 var updater = {
