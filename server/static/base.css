@@ -56,8 +56,8 @@ div#body {
 div.plugin {
     float: left;
     position: relative;
-    height: 100%;
-    width: 100%;
+    height: 48%;
+    width: 48%;
     overflow: hidden;
     margin: 1% 1% 0 1%;
     background-image: url(widget_grad.png);
@@ -66,6 +66,11 @@ div.plugin {
     -moz-box-shadow: 2px 0 3px #0D0D0D, -2px 0 3px #0D0D0D, 0 3px 3px #0D0D0D, 0 -2px 3px #0D0D0D;
     -webkit-box-shadow: 2px 0 3px #0D0D0D, -2px 0 3px #0D0D0D, 0 3px 3px #0D0D0D, 0 -2px 3px #0D0D0D;
     background-color: #232526;
+}
+
+.dashboard-fullscreen div.plugin {
+    height: 100%;
+    width: 100%;
 }
 
 div.plugin h1 {
@@ -77,6 +82,9 @@ div.plugin h1 {
     text-shadow: 0 -1px 1px #000;
     font-weight: normal;
     font-size: 100%;
+}
+
+.dashboard-fullscreen div.plugin h1 {
     font-size: 32px;
 }
 
@@ -139,8 +147,14 @@ p.footer-left {
     float: left;
 }
 
-p.footer-right {
+.footer-right {
     float: right;
+}
+
+#view-toggler {
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
 }
 
 div.error {

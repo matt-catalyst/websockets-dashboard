@@ -2,10 +2,11 @@ div#wrms li.urgent a {
     color: #f00;
 }
 
-div#wrms {
+.dashboard-fullscreen div#wrms {
     font-size: 32px;
 }
-div#wrms > ol > li {
+
+.dashboard-fullscreen div#wrms > ol > li {
     padding-bottom: 10px;
     padding-top: 10px;
 }
