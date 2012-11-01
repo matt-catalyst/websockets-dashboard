@@ -25,6 +25,7 @@ div#availability > ol > li {
 
 .dashboard-fullscreen div#availability > ol > li {
     padding: 25px;
+    margin-right: 30px;
 }
 
 div#availability > ol > li img {
@@ -35,7 +36,7 @@ div#availability > ol > li img {
 }
 
 .dashboard-fullscreen div#availability > ol > li img {
-    margin-right: 15px;
+    margin-right: 20px;
     margin-top: 12px;
     width: 120px;
     height: 150px;
@@ -47,7 +48,7 @@ div#availability > ol > li > ul {
 
 .dashboard-fullscreen div#availability > ol > li > ul {
     padding-left: 120px;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 div#availability > ol > li li {
@@ -58,7 +59,7 @@ div#availability > ol > li li {
 }
 
 .dashboard-fullscreen div#availability > ol > li li {
-    font-size: 22px;
+    font-size: 32px;
 }
 
 div#availability > ol > li li strong {
