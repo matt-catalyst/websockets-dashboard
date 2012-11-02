@@ -1,3 +1,11 @@
+div#availability {
+    font-size: 12px;
+}
+
+.dashboard-fullscreen div#availability {
+    font-size: 22px;
+}
+
 div#availability h2 {
     font-size: 12px;
     font-weight: normal;
@@ -5,10 +13,19 @@ div#availability h2 {
     margin: 0 0 2px;
 }
 
+.dashboard-fullscreen h2 {
+    font-size: 22px;
+}
+
 div#availability > ol > li {
     float: left;
     margin: 0 2px 15px;
     padding: 3px;
+}
+
+.dashboard-fullscreen div#availability > ol > li {
+    padding: 25px;
+    margin-right: 30px;
 }
 
 div#availability > ol > li img {
@@ -18,8 +35,20 @@ div#availability > ol > li img {
     border: 1px solid #ccc;
 }
 
+.dashboard-fullscreen div#availability > ol > li img {
+    margin-right: 20px;
+    margin-top: 12px;
+    width: 120px;
+    height: 150px;
+}
+
 div#availability > ol > li > ul {
     padding-left: 52px;
+}
+
+.dashboard-fullscreen div#availability > ol > li > ul {
+    padding-left: 120px;
+    padding-top: 10px;
 }
 
 div#availability > ol > li li {
@@ -27,6 +56,10 @@ div#availability > ol > li li {
     color: #999;
     padding-bottom: 2px;
     white-space: nowrap;
+}
+
+.dashboard-fullscreen div#availability > ol > li li {
+    font-size: 32px;
 }
 
 div#availability > ol > li li strong {

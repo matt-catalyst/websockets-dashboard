@@ -35,8 +35,70 @@ $(document).ready(function() {
     }
 
     updater.start();
+
+    transitioner.start();
+
+    // add listener for view toggle
+    $('#view-toggler').click(function (e) {
+        $('body').toggleClass('dashboard-fullscreen');
+
+        if ($('body').hasClass('dashboard-fullscreen')) {
+            transitioner.start();
+        } else {
+            transitioner.stop();
+        }
+
+    });
+
 });
 
+// Plugin transitioner
+var transitioner = {
+    config: {
+        tdelay: 10000,  // delay between transitions
+        edelay: 1000,   // effect delay
+        interval: 0,
+        timeout: 0
+    },
+
+    start: function() {
+        // hide all plugins
+        $('.dashboard-fullscreen div.plugin').hide();
+        var obj = this;
+        var firstplugin = $('.dashboard-fullscreen div.plugin:first');
+        // start transitioning immediately
+        obj.plugin_transition(firstplugin);
+        // continue on interval
+        tinterval = $('div.plugin').length * (obj.config.tdelay + obj.config.edelay);
+        this.config.interval = setInterval(function() {obj.plugin_transition(firstplugin);}, tinterval);
+    },
+
+    plugin_transition: function(plugin) {
+        $('.dashboard-fullscreen div.plugin').hide();
+        var obj = this;
+        var nextplugin = plugin.next();
+        if (nextplugin.length) {
+            plugin.fadeIn(obj.config.edelay);
+
+            obj.config.timeout = setTimeout(function () {
+                plugin.fadeOut(obj.config.edelay, function() {obj.plugin_transition(nextplugin)});
+            }, obj.config.tdelay);
+        } else {
+            plugin.fadeIn(obj.config.edelay);
+        }
+    },
+
+    stop: function() {
+        // show all plugins
+        $('div.plugin').show();
+
+        // remove timeout event
+        clearTimeout(this.config.timeout);
+
+        // remove the transitioning interval
+        clearInterval(this.config.interval);
+    }
+}
 
 // Websocket handler
 var updater = {

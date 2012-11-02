@@ -68,6 +68,11 @@ div.plugin {
     background-color: #232526;
 }
 
+.dashboard-fullscreen div.plugin {
+    height: 100%;
+    width: 100%;
+}
+
 div.plugin h1 {
     margin-top: 0;
     padding: 0.5em 1em;
@@ -77,6 +82,10 @@ div.plugin h1 {
     text-shadow: 0 -1px 1px #000;
     font-weight: normal;
     font-size: 100%;
+}
+
+.dashboard-fullscreen div.plugin h1 {
+    font-size: 32px;
 }
 
 div.plugin div.fader {
@@ -138,8 +147,14 @@ p.footer-left {
     float: left;
 }
 
-p.footer-right {
+.footer-right {
     float: right;
+}
+
+#view-toggler {
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
 }
 
 div.error {
