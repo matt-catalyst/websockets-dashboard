@@ -10,3 +10,7 @@ div#wrms li.urgent a {
     padding-bottom: 10px;
     padding-top: 10px;
 }
+
+div#wrms li.new span.status {
+    color: #f90;
+}

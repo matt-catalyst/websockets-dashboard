@@ -33,14 +33,18 @@ plugins.wrms = {
 
             var c = '';
             if (content.ranking > 10000) {
-                c = 'urgent';
+                c += 'urgent ';
+            }
+
+            if (content.status_desc == 'New request') {
+                c += 'new '
             }
 
             var find = $('li#'+id, container);
 
             var link = $('<a>').html('<em>['+content.organisation_code+']</em> '+content.brief);
             link.attr('href', content.request_url);
-            var status = content.status_desc+' [WR#'+content.request_id+'] Last changed: '+d.toDateString();
+            var status = '<span class="status">'+content.status_desc+'</span> [WR#'+content.request_id+'] Last changed: '+d.toDateString();
             var node = $('<li>').attr('id', id).attr('class', c).data('date', content.last_activity_epoch);
             node.append(link).append(' - ').append(status);
 
