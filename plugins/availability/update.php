@@ -36,7 +36,7 @@ while(1) {
         $user->allocated = count($response->response->results);
 
         // In progress
-        $ch = curl_init($config->url.$url.'&last_status=I');
+        $ch = curl_init($config->url.$url.'&last_status=I,K,B');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
         curl_setopt($ch, CURLOPT_COOKIE, 'wrms3_auth='.$config->secret);
         $result = curl_exec($ch);
