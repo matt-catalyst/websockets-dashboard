@@ -26,7 +26,6 @@ plugins.nagios = {
         if (data['lastchange']) {
             var c = new Date();
             c.setTime(data['lastchange'] * 1000);
-
             lastchange.html('Last change: '+c.toDateString()+' '+c.toTimeString());
         }
 
