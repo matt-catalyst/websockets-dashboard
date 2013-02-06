@@ -6,6 +6,12 @@ require_once(dirname(__FILE__).'/config.php');
 // Last dataset hash
 $lasthash = '';
 
+
+define('STATE_OK',          'OK');
+define('STATE_WARNING',     'Warning');
+define('STATE_UNKNOWN',     'Unknown');
+define('STATE_CRITICAL',    'Critical');
+
 while (1) {
 
     print "API call\n";
@@ -20,7 +26,7 @@ while (1) {
         $group = array();
         $state = 0;
 
-        $types = array('OK', 'Warning', 'Unknown', 'Critical');
+        $types = array(STATE_OK, STATE_WARNING, STATE_UNKNOWN, STATE_CRITICAL);
 
         foreach ($data as $i => $row) {
             $group[$types[$i]] = $row;
@@ -30,8 +36,14 @@ while (1) {
             }
         }
 
+        // If no data supplied, critical
+        if (!count($data)) {
+            $states[$name] = STATE_CRITICAL;
+        } else {
+            $states[$name] = $types[$state];
+        }
+
         $codes[$name] = $group;
-        $states[$name] = $types[$state];
     }
 
     $newhash = serialize($codes);
