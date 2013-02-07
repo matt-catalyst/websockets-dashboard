@@ -22,6 +22,11 @@ div#nagios h2.Unknown {
     background-color: #ff8c00;
 }
 
+div#nagios h2 abbr {
+    float: right;
+    font-size: 85%;
+}
+
 div#nagios ul {
     padding: 0 0 0 1em;
     margin: 0;

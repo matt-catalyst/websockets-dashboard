@@ -5,7 +5,8 @@ require_once(dirname(__FILE__).'/config.php');
 
 // Last dataset hash
 $lasthash = '';
-
+$lastcodes = array();
+$laststates = array();
 
 define('STATE_OK',          'OK');
 define('STATE_WARNING',     'Warning');
@@ -38,15 +39,23 @@ while (1) {
 
         // If no data supplied, critical
         if (!count($data)) {
-            $states[$name] = STATE_CRITICAL;
+            $state = STATE_CRITICAL;
         } else {
-            $states[$name] = $types[$state];
+            $state = $types[$state];
         }
 
+        // Check when state last changed
+        if (!in_array($name, array_keys($laststates)) || $laststates[$name][0] !== $state) {
+            $timechanged = time();
+        } else {
+            $timechanged = $laststates[$name][1];
+        }
+
+        $states[$name] = array($state, $timechanged);
         $codes[$name] = $group;
     }
 
-    $newhash = serialize($codes);
+    $newhash = md5(serialize($codes) . serialize($states));
 
     if ($newhash != $lasthash) {
         print "Update sent\n";
@@ -54,6 +63,8 @@ while (1) {
     }
 
     $lasthash = $newhash;
+    $lastcodes = $codes;
+    $laststates = $states;
 
-    sleep(60);
+    sleep(30);
 }

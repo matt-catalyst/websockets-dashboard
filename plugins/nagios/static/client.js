@@ -5,8 +5,16 @@ plugins.nagios = {
     start: function() {
         html = ('<div class="plugin" id="nagios"><h1>Server States</h1><div class="lastchange"></div></div>');
         $('div#body').append(html);
-    },
 
+        $.getScript(
+            base_url + '/plugin/nagios/jquery.timeago.js',
+            function() {
+                jQuery(document).ready(function() {
+                    jQuery("abbr.timeago").timeago({suffixAgo: ''});
+                });
+            }
+        );
+    },
 
     receiveData: function(data) {
 
@@ -36,7 +44,7 @@ plugins.nagios = {
 
             var group = $('div#'+title, container);
             if (!group.length) {
-                var group = $('<div id="'+title+'"><h2>'+title+'</h2><ul></ul></div>');
+                var group = $('<div id="'+title+'"><h2>'+title+'<abbr class="timeago"></abbr></h2><ul></ul></div>');
                 $('h1', container).after(group);
             }
 
@@ -48,7 +56,13 @@ plugins.nagios = {
             }
 
             // Set state
-            $('h2', group).attr('class', data['states'][c]);
+            $('h2', group).attr('class', data['states'][c][0]);
+
+            // Set date state last changed
+            var lc = new Date();
+            lc.setTime(data['states'][c][1] * 1000);
+            $('h2 abbr', group).attr('title', lc.toISOString());
+            jQuery("abbr.timeago").timeago({suffixAgo: ''});
         }
     }
 }
